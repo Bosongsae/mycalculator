@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Calculator</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div id="total">
+      <div id="container">
+        <span class="marquee"
+          >보송새의 작은 계산기 <br />4자리까지만 연산 됩니다.</span
+        >
+        <div id="lastinput"></div>
+        <div id="inputnumber"></div>
+        <div id="buttoncollection">
+          <div class="span"><button class="acbutton">AC</button></div>
+          <div><button class="delbutton"><img src="clear.png" width="27px"></button></div>
+          <div><button class="operator">÷</button></div>
+
+          <button class="number">7</button>
+          <button class="number">8</button>
+          <button class="number">9</button>
+          <button class="operator">⨯</button>
+
+          <button class="number">4</button>
+          <button class="number">5</button>
+          <button class="number">6</button>
+          <button class="operator">−</button>
+
+          <button class="number">1</button>
+          <button class="number">2</button>
+          <button class="number">3</button>
+          <button class="operator">+</button>
+
+          <button class="number span">0</button>
+          <button class="number">.</button>
+          <button class="result">=</button>
+        </div>
+      </div>
+      <div class="explain">
+        <h3>[현재 가능한 기능]</h3>
+        <ul>
+          <li>사칙연산 : +, -, *, /</li>
+          <li>최대 4자리 계산(소수점 포함시 5자리)</li>
+          <li>소수점 계산</li>
+          <li>괄호 없는 산술식 계산(예: 3+2*5)</li>
+          <li>입력내용 지우기 기능(예: 325 → 32)</li>
+          <li>전체 내용 지우기 기능(AC)</li>
+
+        </ul>
+      </div>
+    </div>
+    <script src="calculator.js"></script>
+  </body>
+</html>
