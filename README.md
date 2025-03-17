@@ -15,10 +15,86 @@
 - `utils`: 유틸리티 함수
 - `constants`: 상수 정의
 
+**예시**
+개선 전
+
+```typescript
+// 단일 파일에 모든 기능이 혼합되어 있음
+function input(number: string) {
+  let inputtext: any = document.getElementById("inputnumber");
+  let validChars: Array<string> = ["⨯", "−", "+", "÷"];
+
+  // DOM 조작, 상태 관리, 로직 처리가 모두 혼합됨
+  if (isconclusion === true) {
+    inputtext.textContent = "";
+    lastinputs = "";
+    lastinput.textContent = "";
+
+    inputtext.textContent += number;
+    lastinputs += number;
+    isconclusion = false;
+  }
+  // ...
+}
+```
+
+개선 후
+
+```typescript
+// handlers/index.ts - 사용자 입력 처리만 담당
+export function inputNumber(numStr: string): void {
+  if (isConclusion) {
+    clearDisplay(); // DOM 조작 모듈에 위임
+    appendToDisplay(numStr);
+    setIsConclusion(false); // 상태 관리 모듈에 위임
+    return;
+  }
+  // ...
+}
+
+// dom/index.ts - DOM 조작만 담당
+export function clearDisplay(): void {
+  getInputElement().textContent = "";
+  getLastInputElement().textContent = "";
+  setLastInputs("");
+}
+```
+
 ### 2. 타입스크립트 개선
 
 - **명시적 타입**: `any` 타입의 사용을 줄이고 더 명확한 타입을 사용했습니다.
 - **변수명 개선**: `lastinputs` → `lastInputs`, `isconclusion` → `isConclusion` 등 camelCase 로 일관된 네이밍 컨벤션 적용
+
+**예시**
+개선 전
+
+```typescript
+// any 타입 과다 사용
+const buttons: any = document.querySelectorAll(".number");
+const delbutton: any = document.querySelector(".delbutton");
+let lastinput: any = document.getElementById("lastinput");
+let ops: any[] = []; // 입력된 연산자를 담을 배열
+
+function del() {
+  let inputtext: any = document.getElementById("inputnumber");
+  // ...
+}
+```
+
+개선 후
+
+```typescript
+// 구체적인 타입 지정
+const buttons = document.querySelectorAll<HTMLButtonElement>(".number");
+const delButton = document.querySelector<HTMLButtonElement>(".delbutton");
+export let ops: string[] = [];
+
+export function deleteLastDigit(): void {
+  const inputElement = getInputElement();
+  const textContent = inputElement.textContent || "";
+  // ...
+}
+```
 
 ### 3. 코드 품질 개선
 
@@ -26,11 +102,114 @@
 - **에러 처리**: try-catch를 활용한 더 체계적인 에러 처리
 - **코드 구조화**: 함수들을 더 작은 단위로 나누고 책임을 명확히 했습니다.
 
+**예시**
+개선 전
+
+```typescript
+// 부수 효과가 많은 계산 함수
+function calculator(numbers: Array<number>, ops: Array<string>): number[] {
+  while (ops.indexOf("*") !== -1 || ops.indexOf("/") !== -1) {
+    // 입력 배열을 직접 수정하며 계산
+    let a = numbers.splice(index, 1);
+    let b = numbers.splice(index, 1);
+
+    let newnumber: number = a[0] * b[0];
+    numbers.splice(index, 0, newnumber);
+    ops.splice(index, 1);
+    // ...
+  }
+  return numbers;
+}
+```
+
+개선 후
+
+```typescript
+// 순수 함수로 개선
+export function processOperations(
+  numbers: number[],
+  ops: string[],
+  targetOps: string[]
+): { numbers: number[]; ops: string[] } {
+  // 원본 배열을 수정하지 않고 복사본 사용
+  const result = {
+    numbers: [...numbers],
+    ops: [...ops],
+  };
+
+  for (let i = 0; i < result.ops.length; i++) {
+    if (targetOps.includes(result.ops[i])) {
+      const opResult = performOperation(
+        result.numbers[i],
+        result.numbers[i + 1],
+        result.ops[i]
+      );
+
+      result.numbers.splice(i, 2, opResult);
+      result.ops.splice(i, 1);
+      i--;
+    }
+  }
+
+  return result;
+}
+```
+
 ### 4. 상태 관리 개선
 
 - **캡슐화**: 전역 변수를 직접 조작하지 않고 setter 함수를 통해 상태를 변경하도록 개선
   - `setLastInputs()`, `setIsConclusion()` 등의 함수 추가
 - **초기화 로직 개선**: `resetState()` 함수로 상태 초기화 로직 통합
+
+**예시**
+개선 전
+
+```typescript
+// 전역 변수 직접 수정
+let lastinputs: string = "";
+let isconclusion: boolean = false;
+
+function result() {
+  // ...
+  lastinputs += "=";
+  isconclusion = true;
+}
+
+function operator(operator: string) {
+  // ...
+  lastinputs = lastinputs.slice(0, -1) + operator;
+  isconclusion = false;
+}
+```
+
+개선 후
+
+```typescript
+// store/index.ts - 캡슐화된 상태 관리
+export let lastInputs: string = "";
+export let isConclusion: boolean = false;
+
+export function setLastInputs(value: string): void {
+  lastInputs = value;
+}
+
+export function setIsConclusion(value: boolean): void {
+  isConclusion = value;
+}
+
+// handlers/index.ts - setter 함수 사용
+export function calculateResult(): void {
+  // ...
+  setLastInputs(lastInputs + "=");
+  setIsConclusion(true);
+}
+
+export function inputOperator(operator: string): void {
+  // ...
+  setLastInputs(lastInputs.slice(0, -1) + operator);
+  setIsConclusion(false);
+}
+```
 
 ## 코드 흐름 정리
 
