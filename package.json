@@ -1,0 +1,15 @@
+{
+  "name": "my-calculator",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  }
+}

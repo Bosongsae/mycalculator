@@ -10,14 +10,19 @@
     <div id="total">
       <div id="container">
         <div id="marqueetext">
-        <span class="marquee"
-          >보송새의 작은 계산기 <br />4자리까지만 연산 됩니다.</span
-        ></div>
+          <span class="marquee"
+            >보송새의 작은 계산기 <br />4자리까지만 연산 됩니다.</span
+          >
+        </div>
         <div id="lastinput"></div>
         <div id="inputnumber"></div>
         <div id="buttoncollection">
           <div class="span"><button class="acbutton">AC</button></div>
-          <div><button class="delbutton"><img src="clear.png" width="27px"></button></div>
+          <div>
+            <button class="delbutton">
+              <img src="clear.png" width="27px" />
+            </button>
+          </div>
           <div><button class="operator">÷</button></div>
 
           <button class="number">7</button>
@@ -53,6 +58,6 @@
         </ul>
       </div>
     </div>
-    <script src="calculator.js"></script>
+    <script type="module" src="dist/main.js"></script>
   </body>
 </html>
