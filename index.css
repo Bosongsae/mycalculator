@@ -3,21 +3,67 @@
 @import url("https://fonts.googleapis.com/css2?family=Orbit&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Electrolize&display=swap");
 
-#total {
+
+@media screen and (min-width: 800px) {
+  #total {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; /* 가로 정렬 */
+  }
+  .explain {  
+    background-color: aliceblue;
+    font-family: "42dot Sans", sans-serif;
+    line-height: 1.5;
+    width : 350px;
+    margin-left : 50px;
+    border: none;
+    border-radius: 10px; /* 모서리 둥글게 */
+  
+  }
+}
+@media screen and (max-width: 799px) {
+  #total {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* 세로 정렬 */
+  }  
+  .explain {  
+    background-color: aliceblue;
+    font-family: "42dot Sans", sans-serif;
+    line-height: 1.5;
+    width : 350px;    
+    border: none;
+    border-radius: 10px; /* 모서리 둥글게 */
+  
+  }
+
+}
+
+/* #total {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
+ } */
 
 #container {
   width: 324px;
+  height : 478px;
   padding: 3px;
   background-color: rgb(66, 66, 66);
   border-radius: 13px; /* 모서리 둥글게 */
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* 그림자 추가 */
   text-align: center;
-  overflow: hidden; /* 🔥 바깥 글자 숨기기 */
+  /* overflow: hidden;*/  /* 🔥 바깥 글자 숨기기 */
+  margin-bottom: 50px;
+}
+
+#marqueetext {
+  overflow : hidden;
 }
 
 span {
@@ -31,6 +77,7 @@ span {
   overflow: hidden;
   display: inline-block;
   animation: marquee 5s linear infinite;
+  padding : 5px;
 }
 
 @keyframes marquee {
@@ -146,16 +193,16 @@ button:active {
   border-radius: 5px; /* 모서리 둥글게 */
 }
 
-.explain {  
+/* .explain {  
   background-color: aliceblue;
   font-family: "42dot Sans", sans-serif;
   line-height: 1.5;
   width : 350px;
   margin-left : 50px;
   border: none;
-  border-radius: 10px; /* 모서리 둥글게 */
+  border-radius: 10px; 모서리 둥글게 
 
-}
+} */
 
 h3 {
   font-family: "42dot Sans", sans-serif;
